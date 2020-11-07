@@ -1,7 +1,9 @@
 <template>
   <div id="login">
     <div class="header">
-      <div class="logo"></div>
+      <div class="logo">
+        <img width="100%" src="logo.png" alt="">
+      </div>
       <div class="title">登陆账号</div>
     </div>
     <form>
@@ -41,8 +43,8 @@ export default {
   data() {
     return {
       form: {
-        username: 'editor',
-        password: 'editor',
+        username: '20185337ydy',
+        password: '20185337ydy',
       },
     };
   },
@@ -54,7 +56,9 @@ export default {
           name: 'home',
         });
       } catch (err) {
-        this.$message.message('错误', err.error.message);
+        if (err.error) {
+          this.$message.message('错误', err.error.message);
+        }
       }
     },
     handleCancel() {
@@ -70,7 +74,7 @@ export default {
 .box {
     width: 3.2rem;
     height: 0.4rem;
-    margin-top: 0.2rem;
+    margin-bottom: 0.4rem;
 }
 .box input{
     outline: none;
@@ -98,6 +102,9 @@ export default {
 #login > .header > .title {
   font-weight: 400;
   font-size: 0.3rem;
+}
+#login > form {
+  margin-top: 0.84rem;
 }
 #login > form > .operate {
   display: flex;

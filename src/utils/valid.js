@@ -36,7 +36,7 @@ export function isValid(data, validConfig) {
 
 export function formValid(form, rules) {
   let result;
-  const keyArr = Object.keys(rules);
+  const keyArr = Object.keys(form);
   for (let i = 0; i < keyArr.length; i += 1) {
     const key = keyArr[i];
     result = rules[key](form[key]);

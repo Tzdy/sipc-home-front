@@ -66,5 +66,6 @@ export default {
     text-align: center;
     border-top: 1px solid gray;
     width: 100%;
+    box-sizing: border-box;
 }
 </style>

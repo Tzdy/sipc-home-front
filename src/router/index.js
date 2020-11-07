@@ -19,6 +19,16 @@ const routes = [
     path: '/register',
     component: () => import('../pages/register/index.vue'),
   },
+  {
+    name: 'reset',
+    path: '/reset',
+    component: () => import('../pages/forget-password/reset.vue'),
+  },
+  {
+    name: 'forget-password',
+    path: '/forget-password',
+    component: () => import('../pages/forget-password/index.vue'),
+  },
 ];
 
 const router = new VueRouter({

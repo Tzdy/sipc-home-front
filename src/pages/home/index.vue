@@ -1,6 +1,8 @@
 <template>
   <div id="home">
-    <div class="header"></div>
+    <div class="header">
+      <img height="100%" src="logo.png" alt="" />
+    </div>
     <div class="title">
       <p>欢迎来到SIPC</p>
       <p>产品门户</p>
@@ -32,19 +34,22 @@
       </div>
     </div>
     <div class="service">
-      <span>账号服务</span>
       <div class="operate">
         <router-link :to="{ name: 'login' }">
-          <diy-button>登陆</diy-button>
+          <button class="button">登陆</button>
         </router-link>
         <router-link :to="{ name: 'register' }">
-          <diy-button>注册</diy-button>
+          <button class="button">注册</button>
         </router-link>
-        <diy-button>找回密码</diy-button>
+      </div>
+      <div class="find-back">
+        <router-link :to="{ name: 'forget-password' }"
+          >忘记密码了点这里！</router-link
+        >
       </div>
     </div>
     <div class="footer">
-      <div class="question">问题反馈</div>
+      <router-link class="question" to="#">问题反馈</router-link>
     </div>
   </div>
 </template>
@@ -133,6 +138,18 @@ export default {
 </script>
 
 <style scoped>
+.button {
+  display: inline-block;
+  height: 0.34rem;
+  background: rgb(59, 109, 188);
+  border-radius: 1vh;
+  color: white;
+  font-size: 16px;
+  line-height: 0.34rem;
+  width: 21.4vw;
+  text-align: center;
+  border: none;
+}
 #home {
   display: flex;
   flex-direction: column;
@@ -141,28 +158,28 @@ export default {
   width: 100vw;
 }
 #home > .header {
-  height: 10vh;
+  height: 0.8rem;
   width: 100%;
   flex-shrink: 0;
 }
 #home > .title {
   text-align: center;
-  font-size: 4vh;
-  height: 9.2vh;
+  font-size: 0.32rem;
+  height: 0.92rem;
   color: transparent;
-  text-shadow: 0 0 1px rgba(65, 114, 190, 0.9);
+  text-shadow: 0 0 1px rgba(65, 114, 190, 0.99);
 }
 #home > .slide {
-  margin-top: 2.8vh;
+  margin-top: 0.2rem;
   width: 88vw;
-  height: 27vh;
+  height: 2rem;
   flex-shrink: 0;
 }
 #home > .notice {
   box-sizing: border-box;
   width: 88vw;
-  height: 19vh;
-  margin-top: 6.4vh;
+  height: 1.6rem;
+  margin-top: 0.4rem;
   flex-shrink: 0;
   border-radius: 12px;
   border: 2px solid rgb(179, 179, 179);
@@ -179,13 +196,13 @@ export default {
 }
 #home > .notice > .box > .content {
   white-space: nowrap;
-  height: 3.9vh;
-  line-height: 3.9vh;
+  height: 0.3rem;
+  line-height: 0.3rem;
   border-bottom: 1px solid rgb(179, 179, 179);
   color: black;
 }
 #home > .notice > .box > .content > a {
-    color: black;
+  color: black;
 }
 #home > .notice > .box > .content > a:visited {
   color: black;
@@ -193,26 +210,38 @@ export default {
 #home > .notice::before {
   content: "公告";
   display: inline-block;
-  top: 53.4vh;
-  height: 4vh;
-  line-height: 4vh;
+  height: 0.3rem;
+  position: absolute;
+  margin-top: -0.3rem;
+  line-height: 0.3rem;
   margin-left: 18px;
   position: absolute;
   padding: 0 8px;
   background: white;
 }
 #home > .service {
-  width: 88vw;
-  height: 13.4vh;
-  margin-top: 4.4vh;
+  width: 54.43vw;
+  margin-top: 0.4rem;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
 }
 #home > .service > .operate {
-  margin-top: 2.8vh;
   display: flex;
   justify-content: space-between;
+}
+#home > .service > .find-back {
+  margin-top: 0.22rem;
+  display: flex;
+  justify-content: center;
+}
+#home > .service > .find-back a {
+  color: rgb(98, 181, 222);
+  font-size: 0.145rem;
+  font-weight: 500;
+}
+#home > .service > .find-back a:visited {
+  color: rgb(98, 181, 222);
 }
 #home > .footer {
   width: 100%;
@@ -222,10 +251,10 @@ export default {
   justify-content: flex-end;
 }
 #home > .footer a {
-    color: white;
+  color: rgb(98, 181, 222);
 }
 #home > .footer a:visited {
-  color: white;
+  color: rgb(98, 181, 222);
 }
 #home > .footer > .question {
   margin-right: 5.7vw;

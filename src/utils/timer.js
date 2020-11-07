@@ -1,8 +1,12 @@
 function timer(func, wait) {
   const num = setTimeout(() => {
-    func();
-    clearTimeout(num);
-    timer(func, wait);
+    try {
+      func();
+      clearTimeout(num);
+      timer(func, wait);
+    } catch {
+      clearTimeout(num);
+    }
   }, wait);
 }
 

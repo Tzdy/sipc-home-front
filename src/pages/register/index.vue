@@ -18,7 +18,12 @@
           <input type="text" v-model="form.name" />
         </box>
         <box class="box" title="性别">
-          <input type="text" v-model="form.gender" />
+          <!-- <input type="text" v-model="form.gender" /> -->
+          <select v-model="form.gender" name="" id="">
+              <option selected value="">请选择</option>
+              <option value="0">男</option>
+              <option value="1">女</option>
+          </select>
         </box>
         <box class="box" title="学号">
           <input type="text" v-model="form.student_number" />
@@ -26,14 +31,14 @@
         <box class="box" title="年级">
           <input type="text" v-model="form.grade" />
         </box>
-        <box class="box" title="一卡通账号">
-          <input type="text" v-model="form.card_id" />
-        </box>
         <box class="box" title="手机号">
           <input type="text" v-model="form.phone" />
         </box>
         <box class="box" title="学院">
           <input type="text" v-model="form.college" />
+        </box>
+        <box class="box" title="邮箱">
+          <input type="text" v-model="form.email" />
         </box>
       </form>
     </div>
@@ -45,11 +50,12 @@
 
 <script>
 import { formValid } from '../../utils/valid';
-import rules from './rules/register';
+import rules from '../../utils/rules/auth/info';
 // import func from '../../../vue-temp/vue-editor-bridge';
 import Box from '../../components/Box.vue';
 // import Message from '../../components/Message.vue';
 import Title from '../../components/Title.vue';
+import { register } from '../../api/user/index';
 
 export default {
   name: 'register',
@@ -62,15 +68,15 @@ export default {
         gender: '',
         student_number: '',
         grade: '',
-        card_id: '',
         phone: '',
         college: '',
+        email: '',
       },
       repetPassword: '',
     };
   },
   methods: {
-    handleClick() {
+    async handleClick() {
       const result = formValid(this.form, rules);
       if (!result.success) {
         this.$message.message('提示', result.message);
@@ -78,6 +84,15 @@ export default {
       }
       if (this.form.password !== this.repetPassword) {
         this.$message.message('提示', '两次密码输入不一致，清重新输入');
+        return;
+      }
+      try {
+        await register(this.form);
+        this.$router.push({
+          name: 'home',
+        });
+      } catch (err) {
+        this.$message.message('错误', err.error.message);
       }
     },
   },
@@ -112,10 +127,16 @@ export default {
   background: rgba(0, 0, 0, 0);
   display: block;
 }
+.box select {
+    border: none;
+    width: 100%;
+    height: 100%;
+    background: none;
+    outline: none;
+}
 #register {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
