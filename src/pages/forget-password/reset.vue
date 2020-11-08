@@ -52,7 +52,7 @@ export default {
         this.$message.message('提示', req.message);
         this.$router.push({ name: 'home' });
       } catch (err) {
-        this.$message.message('错误', err.error.message);
+        this.$message.message('提示', err.error.message);
       }
     },
   },

@@ -1,5 +1,5 @@
 <template>
-  <div v-show="visible" id="message">
+  <div v-show="visible" @click="handleClick" id="message">
       <div class="message-box">
         <div class="title">{{ title }}</div>
         <div class="content">{{ text }}</div>
@@ -61,7 +61,6 @@ export default {
     padding: 0.1rem;
 }
 #message > .message-box > .operate {
-    padding: 0.1rem;
     color: rgb(64, 178, 242);
     text-align: center;
     border-top: 1px solid gray;

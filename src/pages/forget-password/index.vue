@@ -1,19 +1,35 @@
 <template>
-    <div id="forget-password">
-        <div class="container">
-            <h1>找回密码</h1>
-            <diy-title>账号信息</diy-title>
-            <box class="box" title="账号">
-                <input class="input" v-model="form.username" type="text">
-            </box>
-            <box class="box" title="邮箱">
-                <input class="input" v-model="form.email" type="text">
-            </box>
-            <div class="operate">
-                <diy-button @click="handleClick">找回</diy-button>
-            </div>
-        </div>
+  <div id="forget-password">
+    <div class="container">
+      <h1>找回密码</h1>
+      <diy-title>账号信息</diy-title>
+      <box class="box" title="账号">
+        <input
+          placeholder="例：21565811zhy"
+          class="input"
+          v-model="form.username"
+          type="text"
+        />
+      </box>
+      <box class="box" title="邮箱">
+        <input
+          placeholder="例：561224668@qq.com"
+          class="input"
+          v-model="form.email"
+          type="text"
+        />
+      </box>
+      <box class="box" title="学号">
+        <input placeholder="例：20185587" class="input" type="text" />
+      </box>
+      <box class="box" title="手机号">
+        <input placeholder="例：13212001111" class="input" type="text" />
+      </box>
+      <div class="operate">
+        <diy-button @click="handleClick">找回</diy-button>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -27,8 +43,8 @@ export default {
   data() {
     return {
       form: {
-        username: '20185337ydy',
-        email: '571219188@qq.com',
+        username: '',
+        email: '',
       },
     };
   },
@@ -44,7 +60,7 @@ export default {
         this.$message.message('提示', req.message);
         this.$router.push({ name: 'home' });
       } catch (err) {
-        this.$message.message('错误', err.error.message);
+        this.$message.message('提示', err.error.message);
       }
     },
   },
@@ -57,34 +73,34 @@ export default {
 
 <style scoped>
 #forget-password {
-    width: 100%;
-    height: 100%;
-    display: flex;
+  width: 100%;
+  height: 100%;
+  display: flex;
 }
 #forget-password > .container {
-    margin: auto;
-    width: 3.2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  margin: auto;
+  width: 3.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 #forget-password > .container > .operate {
-    margin-top: 0.4rem;
+  margin-top: 0.4rem;
 }
 .box {
-    width: 3.2rem;
-    height: 0.4rem;
-    margin-top: 0.2rem;
+  width: 3.2rem;
+  height: 0.4rem;
+  margin-top: 0.2rem;
 }
 .input {
-    outline: none;
-    border: none;
-    width: 100%;
-    font-size: 0.12rem;
-    height: 100%;
-    position: relative;
-    z-index: 2;
-    background: rgba(0, 0, 0, 0);
-    display: block;
+  outline: none;
+  border: none;
+  width: 100%;
+  font-size: 0.12rem;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0);
+  display: block;
 }
 </style>

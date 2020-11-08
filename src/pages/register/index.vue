@@ -5,37 +5,66 @@
       <form ref="form">
         <diy-title>账号信息</diy-title>
         <box class="box" title="用户名">
-          <input type="text" v-model="form.username" />
+          <input
+            placeholder="例：21565811zhy"
+            type="text"
+            v-model="form.username"
+          />
         </box>
         <box class="box" title="密码">
-          <input type="text" v-model="form.password" />
+          <input
+            placeholder="例：21565811zhy"
+            type="password"
+            v-model="form.password"
+          />
         </box>
         <box class="box" title="确认密码">
-          <input type="text" v-model="repetPassword" />
+          <input
+            placeholder="例：21565811zhy"
+            type="password"
+            v-model="repetPassword"
+          />
         </box>
         <diy-title>身份信息</diy-title>
         <box class="box" title="姓名">
-          <input type="text" v-model="form.name" />
+          <input placeholder="例：张三" type="text" v-model="form.name" />
         </box>
         <box class="box" title="性别">
-          <!-- <input type="text" v-model="form.gender" /> -->
-          <select v-model="form.gender" name="" id="">
-              <option selected value="">请选择</option>
-              <option value="0">男</option>
-              <option value="1">女</option>
+          <select :style="selectStyle" v-model="form.gender" name="" id="">
+            <option selected disabled hidden value="">
+              <span>例：男</span>
+            </option>
+            <option value="0">男</option>
+            <option value="1">女</option>
           </select>
         </box>
         <box class="box" title="学号">
-          <input type="text" v-model="form.student_number" />
+          <input
+            placeholder="例：20185587"
+            type="text"
+            v-model="form.student_number"
+          />
         </box>
         <box class="box" title="年级">
-          <input type="text" v-model="form.grade" />
+          <input
+            placeholder="例：18级本科生"
+            type="text"
+            v-model="form.grade"
+          />
         </box>
         <box class="box" title="手机号">
-          <input type="text" v-model="form.phone" />
+          <input
+            placeholder="例：13212001111"
+            type="text"
+            v-model="form.phone"
+          />
         </box>
         <box class="box" title="学院">
-          <input type="text" v-model="form.college" />
+          <input
+            placeholder="例：计算机科学与工程学院"
+            type="text"
+            v-model="form.college"
+          />
         </box>
         <box class="box" title="邮箱">
           <input type="text" v-model="form.email" />
@@ -43,6 +72,7 @@
       </form>
     </div>
     <div class="operate">
+      <diy-button @click="handleCancel">取消</diy-button>
       <diy-button @click="handleClick">创建</diy-button>
     </div>
   </div>
@@ -75,6 +105,14 @@ export default {
       repetPassword: '',
     };
   },
+  computed: {
+    selectStyle() {
+      if (this.form.gender.length === 0) {
+        return { color: '#AAAAAA' };
+      }
+      return { color: 'black' };
+    },
+  },
   methods: {
     async handleClick() {
       const result = formValid(this.form, rules);
@@ -92,8 +130,13 @@ export default {
           name: 'home',
         });
       } catch (err) {
-        this.$message.message('错误', err.error.message);
+        this.$message.message('提示', err.error.message);
       }
+    },
+    handleCancel() {
+      this.$router.push({
+        name: 'home',
+      });
     },
   },
   components: {
@@ -126,13 +169,15 @@ export default {
   z-index: 2;
   background: rgba(0, 0, 0, 0);
   display: block;
+  font-size: 13px;
 }
 .box select {
-    border: none;
-    width: 100%;
-    height: 100%;
-    background: none;
-    outline: none;
+  border: none;
+  width: 100%;
+  height: 100%;
+  background: none;
+  outline: none;
+  font-size: 13px;
 }
 #register {
   display: flex;
@@ -150,5 +195,9 @@ export default {
 }
 #register > .operate {
   margin-top: 0.2rem;
+  margin-top: 0.2rem;
+  display: flex;
+  width: 3.2rem;
+  justify-content: space-around;
 }
 </style>

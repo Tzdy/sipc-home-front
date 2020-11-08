@@ -49,6 +49,7 @@
       </div>
     </div>
     <div class="footer">
+      <img src="notice.png" alt="">
       <router-link class="question" to="#">问题反馈</router-link>
     </div>
   </div>
@@ -96,7 +97,7 @@ export default {
           url: '#',
         },
       ],
-      swiper: ['swiper.png', 'swiper.png', 'swiper.png'],
+      swiper: ['https://www.tsdy.club/git/anqi00000001/static/raw/master/WeStudy/images/index/advertising/2.png', 'https://www.tsdy.club/git/anqi00000001/static/raw/master/WeStudy/images/index/advertising/2.png', 'https://www.tsdy.club/git/anqi00000001/static/raw/master/WeStudy/images/index/advertising/2.png'],
       swiperOption: {
         loop: true,
         autoplay: {
@@ -116,10 +117,12 @@ export default {
     handleScroll() {
       const boxHeight = parseInt(getComputedStyle(this.$refs.box).height, 0);
       if (
-        this.$refs.box.scrollTop + boxHeight + 5
+        Math.ceil(this.$refs.box.scrollTop) + boxHeight + 1
         >= this.$refs.box.scrollHeight
       ) {
+        this.$refs.box.style.scrollBehavior = 'auto';
         this.$refs.box.scrollTop = 0;
+        this.$refs.box.style.scrollBehavior = 'smooth';
       }
     },
   },
@@ -132,7 +135,7 @@ export default {
       if (this.allowScroll) {
         this.$refs.box.scrollTop += contentHeight;
       }
-    }, 2000);
+    }, 4000);
   },
 };
 </script>
@@ -158,7 +161,7 @@ export default {
   width: 100vw;
 }
 #home > .header {
-  height: 0.8rem;
+  height: 0.5rem;
   width: 100%;
   flex-shrink: 0;
 }
@@ -184,6 +187,7 @@ export default {
   border-radius: 12px;
   border: 2px solid rgb(179, 179, 179);
   padding: 2.8vw;
+  font-size: 13px;
 }
 #home > .notice > .box {
   width: 100%;

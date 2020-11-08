@@ -23,4 +23,19 @@ body,
   width: 100%;
   height: 100%;
 }
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color: #AAAAAA;
+}
+
+input:-moz-placeholder, textarea:-moz-placeholder {
+  color: #AAAAAA;
+}
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+  color: #AAAAAA;
+}
+
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+  color: #AAAAAA;
+}
 </style>

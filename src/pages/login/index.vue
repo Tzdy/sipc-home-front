@@ -43,8 +43,8 @@ export default {
   data() {
     return {
       form: {
-        username: '20185337ydy',
-        password: '20185337ydy',
+        username: '',
+        password: '',
       },
     };
   },
@@ -57,7 +57,7 @@ export default {
         });
       } catch (err) {
         if (err.error) {
-          this.$message.message('错误', err.error.message);
+          this.$message.message('提示', err.error.message);
         }
       }
     },
