@@ -16,6 +16,7 @@
         <swiper-slide v-for="(item, index) in swiper" :key="index"
           ><img width="100%" height="100%" :src="item" alt="" />
         </swiper-slide>
+        <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
     </div>
     <div class="notice">
@@ -68,45 +69,20 @@
 <script>
 import timer from '../../utils/timer';
 
+const notices = [];
+for (let i = 0; i < 15; i += 1) {
+  notices.push({
+    text: '本次科技立项已经于2020年3月完成',
+    url: '#',
+  });
+}
+
 export default {
   name: 'Home',
   data() {
     return {
       allowScroll: true,
-      notices: [
-        {
-          text: '本次科技立项已经于2020年3月完成',
-          url: '#',
-        },
-        {
-          text: '本次科技立项已经于2020年3月完成',
-          url: '#',
-        },
-        {
-          text: '本次科技立项已经于2020年3月完成',
-          url: '#',
-        },
-        {
-          text: '本次科技立项已经于2020年3月完成',
-          url: '#',
-        },
-        {
-          text: '本次科技立项已经于2020年3月完成',
-          url: '#',
-        },
-        {
-          text: '本次科技立项已经于2020年3月完成',
-          url: '#',
-        },
-        {
-          text: '本次科技立项已经于2020年3月完成',
-          url: '#',
-        },
-        {
-          text: '本次科技立项已经于2020年3月完成',
-          url: '#',
-        },
-      ],
+      notices,
       swiper: [
         'https://www.tsdy.club/git/anqi00000001/static/raw/master/WeStudy/images/index/advertising/2.png',
         'https://www.tsdy.club/git/anqi00000001/static/raw/master/WeStudy/images/index/advertising/2.png',
@@ -115,8 +91,11 @@ export default {
       swiperOption: {
         loop: true,
         autoplay: {
-          delay: 2000,
+          delay: 3000,
           disableOnInteraction: false,
+        },
+        pagination: {
+          el: '.swiper-pagination',
         },
       },
       scroll: {
@@ -166,13 +145,15 @@ export default {
         Math.ceil(this.$refs.box.scrollTop) + boxHeight + 1
         >= this.$refs.box.scrollHeight
       ) {
-        this.$refs.box.style.scrollBehavior = 'auto';
-        this.$refs.box.scrollTop = 0;
-        this.scroll.dy = 0;
-        this.scroll.y = 0;
-        this.$refs.dot.style.transform = 'translateY(0)';
-        this.allowTouch = false;
-        this.$refs.box.style.scrollBehavior = 'smooth';
+        if (this.allowScroll) {
+          this.$refs.box.style.scrollBehavior = 'auto';
+          this.$refs.box.scrollTop = 0;
+          this.scroll.dy = 0;
+          this.scroll.y = 0;
+          this.$refs.dot.style.transform = 'translateY(0)';
+          this.allowTouch = false;
+          this.$refs.box.style.scrollBehavior = 'smooth';
+        }
       }
 
       this.$refs.dot.style.transform = `translateY(${this.scroll.y}px)`;
@@ -219,6 +200,7 @@ export default {
     );
     timer(() => {
       if (this.allowScroll) {
+        this.$refs.box.scrollTop -= 1;
         this.$refs.box.scrollTop += contentHeight;
       }
     }, 4000);
@@ -265,8 +247,7 @@ export default {
   text-align: center;
   font-size: 0.32rem;
   height: 0.92rem;
-  color: transparent;
-  text-shadow: 0 0 1px rgba(65, 114, 190, 0.99);
+  color: rgb(65, 114, 190);
 }
 #home > .slide {
   margin-top: 0.2rem;

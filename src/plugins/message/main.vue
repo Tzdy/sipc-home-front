@@ -66,5 +66,6 @@ export default {
     border-top: 1px solid gray;
     width: 100%;
     box-sizing: border-box;
+    padding: 4px;
 }
 </style>

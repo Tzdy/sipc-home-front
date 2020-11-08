@@ -28,6 +28,7 @@ export default {
     align-self: end;
 }
 #title > .text {
+    margin-left: 4px;
     flex-shrink: 0;
     font-size: 0.18rem;
 }

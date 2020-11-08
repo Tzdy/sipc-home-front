@@ -1,7 +1,7 @@
 <template>
   <div id="forget-password">
     <div class="container">
-      <h1>找回密码</h1>
+      <div class="title">找回密码</div>
       <diy-title>账号信息</diy-title>
       <box class="box" title="账号">
         <input
@@ -72,6 +72,11 @@ export default {
 </script>
 
 <style scoped>
+.title {
+  font-size: 0.25rem;
+  font-weight: 400;
+  margin-bottom: 0.3rem;
+}
 #forget-password {
   width: 100%;
   height: 100%;
