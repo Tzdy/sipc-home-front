@@ -67,7 +67,7 @@
           />
         </box>
         <box class="box" title="邮箱">
-          <input type="text" v-model="form.email" />
+          <input placeholder="例：12412@163.com" type="text" v-model="form.email" />
         </box>
       </form>
     </div>

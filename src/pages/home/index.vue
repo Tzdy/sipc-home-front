@@ -20,8 +20,9 @@
     </div>
     <div class="notice">
       <div
-        @touchstart="handleTouchStart"
-        @touchend="handleTouchEnd"
+        @touchstart="handleTouchStart($event)"
+        @touchend="handleTouchEnd($event)"
+        @touchmove.prevent="handleTouchMove($event)"
         @scroll="handleScroll"
         ref="box"
         class="box"
@@ -31,6 +32,15 @@
             {{ notice.text }}
           </router-link>
         </div>
+      </div>
+      <div v-show="scroll.visible" ref="scroll-bar" class="scroll-bar">
+        <div
+          @touchstart.prevent="handleDotTouchStart($event)"
+          @touchmove.prevent="handleDotTouchMove($event)"
+          @touchend.prevent="handleDotTouchEnd"
+          ref="dot"
+          class="dot"
+        ></div>
       </div>
     </div>
     <div class="service">
@@ -49,7 +59,7 @@
       </div>
     </div>
     <div class="footer">
-      <img src="notice.png" alt="">
+      <img src="notice.png" alt="" />
       <router-link class="question" to="#">问题反馈</router-link>
     </div>
   </div>
@@ -97,7 +107,11 @@ export default {
           url: '#',
         },
       ],
-      swiper: ['https://www.tsdy.club/git/anqi00000001/static/raw/master/WeStudy/images/index/advertising/2.png', 'https://www.tsdy.club/git/anqi00000001/static/raw/master/WeStudy/images/index/advertising/2.png', 'https://www.tsdy.club/git/anqi00000001/static/raw/master/WeStudy/images/index/advertising/2.png'],
+      swiper: [
+        'https://www.tsdy.club/git/anqi00000001/static/raw/master/WeStudy/images/index/advertising/2.png',
+        'https://www.tsdy.club/git/anqi00000001/static/raw/master/WeStudy/images/index/advertising/2.png',
+        'https://www.tsdy.club/git/anqi00000001/static/raw/master/WeStudy/images/index/advertising/2.png',
+      ],
       swiperOption: {
         loop: true,
         autoplay: {
@@ -105,25 +119,97 @@ export default {
           disableOnInteraction: false,
         },
       },
+      scroll: {
+        dy: undefined,
+        y: 0,
+        allowScrollHeight: 0,
+        visible: true,
+      },
+      allowTouch: false,
+      contentScroll: {
+        dy: undefined,
+        y: 0,
+      },
+      timer: undefined,
     };
   },
   methods: {
-    handleTouchStart() {
+    handleTouchStart(e) {
       this.allowScroll = false;
+      this.scroll.visible = true;
+      this.contentScroll.dy = e.touches[0].clientY + this.scroll.y;
+      this.$refs.box.style.scrollBehavior = 'auto';
+    },
+    handleTouchMove(e) {
+      this.diplayScroll();
+      const boxHeight = parseInt(getComputedStyle(this.$refs.box).height, 0);
+      this.scroll.y = -(e.touches[0].clientY - this.contentScroll.dy);
+      if (this.scroll.y >= this.scroll.allowScrollHeight) {
+        this.scroll.y = this.scroll.allowScrollHeight;
+      } else if (this.scroll.y <= 0) {
+        this.scroll.y = 0;
+      }
+      this.$refs.box.scrollTop = (this.scroll.y * (this.$refs.box.scrollHeight - boxHeight))
+        / this.scroll.allowScrollHeight;
     },
     handleTouchEnd() {
       this.allowScroll = true;
+      this.$refs.box.style.scrollBehavior = 'smooth';
     },
     handleScroll() {
       const boxHeight = parseInt(getComputedStyle(this.$refs.box).height, 0);
+      // smooth下scrollTop不能瞬间增加
+      this.scroll.y = (this.$refs.box.scrollTop * this.scroll.allowScrollHeight)
+        / (this.$refs.box.scrollHeight - boxHeight);
+
       if (
         Math.ceil(this.$refs.box.scrollTop) + boxHeight + 1
         >= this.$refs.box.scrollHeight
       ) {
         this.$refs.box.style.scrollBehavior = 'auto';
         this.$refs.box.scrollTop = 0;
+        this.scroll.dy = 0;
+        this.scroll.y = 0;
+        this.$refs.dot.style.transform = 'translateY(0)';
+        this.allowTouch = false;
         this.$refs.box.style.scrollBehavior = 'smooth';
       }
+
+      this.$refs.dot.style.transform = `translateY(${this.scroll.y}px)`;
+    },
+    handleDotTouchStart(e) {
+      this.$refs.box.style.scrollBehavior = 'auto';
+      this.allowScroll = false;
+      this.scroll.dy = e.touches[0].clientY - this.scroll.y;
+      this.allowTouch = true;
+    },
+    handleDotTouchMove(e) {
+      this.diplayScroll();
+      if (!this.allowTouch) {
+        return;
+      }
+      const boxHeight = parseInt(getComputedStyle(this.$refs.box).height, 0);
+      this.scroll.y = e.touches[0].clientY - this.scroll.dy;
+      if (this.scroll.y >= this.scroll.allowScrollHeight) {
+        this.scroll.y = this.scroll.allowScrollHeight;
+      } else if (this.scroll.y <= 0) {
+        this.scroll.y = 0;
+      }
+      this.$refs.box.scrollTop = (this.scroll.y * (this.$refs.box.scrollHeight - boxHeight))
+        / this.scroll.allowScrollHeight;
+      console.log(this.$refs.box.scrollTop);
+      e.target.style.transform = `translateY(${this.scroll.y}px)`;
+    },
+    handleDotTouchEnd() {
+      this.allowScroll = true;
+      this.$refs.box.style.scrollBehavior = 'smooth';
+    },
+    diplayScroll() {
+      this.scroll.visible = true;
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.scroll.visible = false;
+      }, 2000);
     },
   },
   mounted() {
@@ -136,6 +222,16 @@ export default {
         this.$refs.box.scrollTop += contentHeight;
       }
     }, 4000);
+
+    const { box } = this.$refs;
+    const boxHeight = parseInt(getComputedStyle(this.$refs.box).height, 0);
+    const scroll = this.$refs['scroll-bar'];
+    const scrollHeight = parseInt(getComputedStyle(scroll).height, 0);
+    const { dot } = this.$refs;
+    const dotHeight = (boxHeight * scrollHeight) / box.scrollHeight;
+    dot.style.height = `${dotHeight}px`;
+    this.scroll.allowScrollHeight = scrollHeight - dotHeight;
+    this.scroll.visible = false;
   },
 };
 </script>
@@ -188,13 +284,15 @@ export default {
   border: 2px solid rgb(179, 179, 179);
   padding: 2.8vw;
   font-size: 13px;
+  display: flex;
+  flex-direction: row;
 }
 #home > .notice > .box {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  overflow-y: hidden;
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
@@ -222,6 +320,15 @@ export default {
   position: absolute;
   padding: 0 8px;
   background: white;
+}
+#home > .notice > .scroll-bar {
+  width: 16px;
+  height: 100%;
+}
+#home > .notice .scroll-bar > .dot {
+  width: 100%;
+  height: 10px;
+  background: gainsboro;
 }
 #home > .service {
   width: 54.43vw;
